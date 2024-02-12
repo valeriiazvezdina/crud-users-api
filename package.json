@@ -2,10 +2,23 @@
   "name": "crud-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "tsc --watch",
+    "start:dev": "NODE_ENV=development nodemon --exec 'ts-node' src/server.ts",
+    "start:prod": "tsc && NODE_ENV=production node dist/server.js",
+    "test": "jest"
   },
   "author": "Valeriia Zvezdina",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.8",
+    "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
 }
