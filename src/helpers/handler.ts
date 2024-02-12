@@ -17,7 +17,7 @@ export class RequestHandler {
             const status = StatusCodes.OK;
             this.sendResponse(res, status, data);
         } else {
-            // const userId = req.params
+            const userId = this.getUserIdParam(parsedUrl.path as string) as string;
 
             if (!validate(userId)) {
                 throw new NotValidInputError();
@@ -57,17 +57,51 @@ export class RequestHandler {
     }
 
     handlePutRequest(req: IncomingMessage, res: ServerResponse, parsedUrl: url.UrlWithParsedQuery) {
-            
+        let requestBody = '';
+
+        req.on('data', (chunk) => {
+            requestBody += chunk;
+        });
+      
+        req.on('end', () => {
+            const updatedUser = JSON.parse(requestBody);
+            const userId = this.getUserIdParam(parsedUrl.path as string) as string;
+
+            if (!validate(userId)) {
+                throw new NotValidInputError();
+            }
+
+            usersController.updateUser(userId, updatedUser);
+
+            const status = StatusCodes.OK;
+            this.sendResponse(res, status);
+        });
     }
 
     handleDeleteRequest(req: IncomingMessage, res: ServerResponse, parsedUrl: url.UrlWithParsedQuery) {
-            
+        const userId = this.getUserIdParam(parsedUrl.path as string) as string;
+
+        if (!validate(userId)) {
+            throw new NotValidInputError();
+        }
+
+        usersController.deleteUser(userId);
+
+        const status = StatusCodes.OK;
+        this.sendResponse(res, status);
     }
 
-    sendResponse(res: ServerResponse, statusCode: number, data: User | Array<User>) {
+    sendResponse(res: ServerResponse, statusCode: number, data?: User | Array<User>) {
         res.setHeader('Content-Type', 'application/json');
         res.statusCode = statusCode;
-        res.write(JSON.stringify(data));
+        data ? res.write(JSON.stringify(data)) : null;
         res.end();
-      };
+    };
+
+    getUserIdParam(path: string) {
+        const pathParts = path.split('/');
+        if (pathParts.length === 4 && pathParts[1] === 'api' && pathParts[2] === 'users') {
+            return pathParts[3];
+        }
+    }
 }
