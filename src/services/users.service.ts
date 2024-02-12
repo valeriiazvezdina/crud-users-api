@@ -3,7 +3,7 @@ import { NotValidInputError } from "../errors/notValidInputError";
 import { User } from "../interfaces/interfaces";
 import { v4 as uuidv4 } from 'uuid';
 
-const users: Array<User> = [ {id: uuidv4(), username: 'valeriia', age: 22, hobbies: [ 'sport' ] } ];
+const users: Array<User> = [];
 
 export class UsersService {
     getAllUsers(): Array<User> {
