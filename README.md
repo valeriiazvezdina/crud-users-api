@@ -13,8 +13,8 @@
 ```npm run start:prod```
 
 ## Availabe requests
-GET /api/users -> return all users
-GET /api/users/{userId} -> return certain user
-POST /api/users -> create new one user
-PUT /api/users/{userId} -> update user of provided userId
-DELETE /api/users/{userId} -> delet user of provided userId
+GET /api/users -> return all users\n
+GET /api/users/{userId} -> return certain user\n
+POST /api/users -> create new one user\n
+PUT /api/users/{userId} -> update user of provided userId\n
+DELETE /api/users/{userId} -> delet user of provided userId\n
